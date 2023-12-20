@@ -14,6 +14,7 @@ export default async function handler(
 
   console.log('question', question);
   console.log('history', history);
+  console.log('PIN', PINECONE_INDEX_NAME);
 
   //only accept post requests
   if (req.method !== 'POST') {
@@ -39,9 +40,12 @@ export default async function handler(
         // namespace: PINECONE_NAME_SPACE, //namespace comes from your config folder
       },
     );
+    console.log("vector")
 
     //create chain
     const chain = makeChain(vectorStore);
+
+    console.log("chain")
 
     const pastMessages = history.map((message: string, i: number) => {
       if (i % 2 === 0) {
@@ -56,6 +60,7 @@ export default async function handler(
       question: sanitizedQuestion,
       chat_history: pastMessages
     });
+    console.log("response")
 
     console.log('response', response);
     res.status(200).json(response);
